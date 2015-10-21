@@ -2,6 +2,8 @@
 
 #include "weather/weather.h"
 
+#include "key.h"
+
 static Window *s_window;
 static TextLayer *s_text_layer;
 
