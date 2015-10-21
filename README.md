@@ -2,6 +2,10 @@
 
 Weather library for easy fetching of weather data from OpenWeatherMap.org.
 
+Includes a simple test app as a proof of concept usage of a weather C API.
+
+![basalt](screenshots/basalt.png)
+
 
 ## How to use
 
