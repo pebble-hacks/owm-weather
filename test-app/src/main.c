@@ -46,8 +46,11 @@ static void window_load(Window *window) {
   Layer *window_layer = window_get_root_layer(window);
   GRect bounds = layer_get_bounds(window_layer);
 
-  s_text_layer = text_layer_create(bounds);
+  s_text_layer = text_layer_create(PBL_IF_ROUND_ELSE(
+    grect_inset(bounds, GEdgeInsets(20, 0, 0, 0)),
+    bounds));
   text_layer_set_text(s_text_layer, "Ready.");
+  text_layer_set_text_alignment(s_text_layer, PBL_IF_ROUND_ELSE(GTextAlignmentCenter, GTextAlignmentLeft));
   layer_add_child(window_layer, text_layer_get_layer(s_text_layer));
 }
 
