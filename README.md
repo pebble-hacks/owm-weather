@@ -9,7 +9,7 @@ Includes a simple test app as a proof of concept usage of a weather C API.
 
 ## How to use
 
-* Obtain an API key from [OpenWeatherMap.org](http://openweathermap.org/api).
+* Obtain an API key from [OpenWeatherMap.org](http://home.openweathermap.org/users/sign_up).
 
 * Add these `AppMessage` keys to the `appKeys` array in `appinfo.json`:
 
