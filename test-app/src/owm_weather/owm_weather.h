@@ -26,18 +26,14 @@ typedef enum {
 typedef struct {
   //! Weather conditions string e.g: "Sky is clear"
   char description[OWM_WEATHER_BUFFER_SIZE];
-
   //! Short conditions string e.g: "Clear"
   char description_short[OWM_WEATHER_BUFFER_SIZE];
-
   //! Name of the location from the weather feed
   char name[OWM_WEATHER_BUFFER_SIZE];
-
   //! Temperature in degrees Kelvin, Celcius, and Farenheit
   int temp_k;
   int temp_c;
   int temp_f;
-
   //! Date that the data was received
   time_t timestamp;
 } OWMWeatherInfo;
