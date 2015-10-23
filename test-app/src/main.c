@@ -1,15 +1,15 @@
 #include <pebble.h>
 
-#include "weather/weather.h"
+#include "owm_weather/owm_weather.h"
 
 #include "key.h"
 
 static Window *s_window;
 static TextLayer *s_text_layer;
 
-static void weather_callback(WeatherInfo *info, WeatherStatus status) {
+static void weather_callback(OWMWeatherInfo *info, OWMWeatherStatus status) {
   switch(status) {
-    case WeatherStatusAvailable:
+    case OWMWeatherStatusAvailable:
     {
       static char s_time_buffer[8];
       struct tm *time_stamp_tm = localtime(&info->timestamp);
@@ -23,23 +23,23 @@ static void weather_callback(WeatherInfo *info, WeatherStatus status) {
       text_layer_set_text(s_text_layer, s_buffer);
     }
       break;
-    case WeatherStatusNotYetFetched:
-      text_layer_set_text(s_text_layer, "WeatherStatusNotYetFetched");
+    case OWMWeatherStatusNotYetFetched:
+      text_layer_set_text(s_text_layer, "OWMWeatherStatusNotYetFetched");
       break;
-    case WeatherStatusBluetoothDisconnected:
-      text_layer_set_text(s_text_layer, "WeatherStatusBluetoothDisconnected");
+    case OWMWeatherStatusBluetoothDisconnected:
+      text_layer_set_text(s_text_layer, "OWMWeatherStatusBluetoothDisconnected");
       break;
-    case WeatherStatusPending:
-      text_layer_set_text(s_text_layer, "WeatherStatusPending");
+    case OWMWeatherStatusPending:
+      text_layer_set_text(s_text_layer, "OWMWeatherStatusPending");
       break;
-    case WeatherStatusFailed:
-      text_layer_set_text(s_text_layer, "WeatherStatusFailed");
+    case OWMWeatherStatusFailed:
+      text_layer_set_text(s_text_layer, "OWMWeatherStatusFailed");
       break;
   }
 }
 
 static void fetch_handler(void *context) {
-  weather_fetch(weather_callback);
+  owm_weather_fetch(weather_callback);
 }
 
 static void window_load(Window *window) {
@@ -68,13 +68,13 @@ static void init() {
   });
   window_stack_push(s_window, true);
 
-  weather_init(API_KEY);
+  owm_weather_init(API_KEY);
   
   app_timer_register(3000, fetch_handler, NULL);
 }
 
 static void deinit() { 
-  weather_deinit();
+  owm_weather_deinit();
 }
 
 int main() {

@@ -59,12 +59,3 @@ function owmWeatherHandler(dict) {
 };
 
 /**************************** Weather library end *****************************/
-
-Pebble.addEventListener('ready', function(e) {
-  console.log('PebbleKit JS ready!');
-});
-
-Pebble.addEventListener('appmessage', function(e) {
-  console.log('appmessage: ' + JSON.stringify(e.payload));
-  owmWeatherHandler(e);
-});

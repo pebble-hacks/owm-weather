@@ -1,6 +1,7 @@
-# weather
+# owm-weather
 
-Weather library for easy fetching of weather data from OpenWeatherMap.org.
+Library for easy fetching of weather data from
+[OpenWeatherMap.org](http://home.openweathermap.org).
 
 Includes a simple test app as a proof of concept usage of a weather C API.
 
@@ -14,37 +15,43 @@ Includes a simple test app as a proof of concept usage of a weather C API.
 * Add these `AppMessage` keys to the `appKeys` array in `appinfo.json`:
 
 ```
-"WeatherAppMessageKeyRequest": 0,
-"WeatherAppMessageKeyReply": 1,
-"WeatherAppMessageKeyDescription": 2,
-"WeatherAppMessageKeyDescriptionShort": 3,
-"WeatherAppMessageKeyName": 4,
-"WeatherAppMessageKeyTempK": 5
+"OWMWeatherAppMessageKeyRequest": 0,
+"OWMWeatherAppMessageKeyReply": 1,
+"OWMWeatherAppMessageKeyDescription": 2,
+"OWMWeatherAppMessageKeyDescriptionShort": 3,
+"OWMWeatherAppMessageKeyName": 4,
+"OWMWeatherAppMessageKeyTempK": 5
 ```
 
-* Insert `weather/weather.js` into your apps' `pebble-js-app.js`.
+* Insert `owm_weather/owm_weather.js` into the top of your apps' `pebble-js-app.js`.
 
-* Call `weatherHandle()` in said `appmessage` handler so that it can message the C side.
-
-* Copy the `weather` directory into your project's `src` directory and include
-  the library in your C files that will use it:
+* Call `owmWeatherHandler()` in an `appmessage` handler so that it can message the C side.
 
 ```
-#include "weather.h"
-``` 
+Pebble.addEventListener('appmessage', function(e) {
+  console.log('appmessage: ' + JSON.stringify(e.payload));
+  owmWeatherHandler(e);
+});
+```
 
-* Call `weather_init()` to initialize the library when your app starts.
+* Copy the `owm_weather` directory into your project's `src` directory and include the library in any C files that will use it:
 
-* Call `weather_fetch()`,  after PebbleKit JS is ready supplying a suitable
+```
+#include "owm_weather/owm_weather.h"
+```
+
+* Call `owm_weather_init()` to initialize the library when your app starts.
+
+* Call `owm_weather_fetch()`, after PebbleKit JS is ready supplying a suitable
   callback for events.
 
 That's it! When the fetch returns (successful or not), the callback will be
-called with a `WeatherInfo` object for you to extract data from.
+called with a `OWMWeatherInfo` object for you to extract data from.
 
 
 ## Documentation
 
-Read `weather/weather.h` for function and `enum` documentation.
+Read `owm_weather/owm_weather.h` for function and `enum` documentation.
 
 
 ## Data returned
@@ -56,4 +63,3 @@ Read `weather/weather.h` for function and `enum` documentation.
 **Not implemented, but possible**
 
 Anything else detailed in the JSON response.
-

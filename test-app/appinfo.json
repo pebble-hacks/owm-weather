@@ -1,7 +1,7 @@
 {
   "uuid": "76a2941b-5953-4c17-87b9-92cc1f9f2ceb",
-  "shortName": "weather-test-app",
-  "longName": "weather-test-app",
+  "shortName": "owm-weather-test-app",
+  "longName": "owm-weather-test-app",
   "companyName": "Pebble",
   "versionLabel": "1.0",
   "sdkVersion": "3",
@@ -10,12 +10,12 @@
     "watchface": false
   },
   "appKeys": {
-    "WeatherAppMessageKeyRequest": 0,
-    "WeatherAppMessageKeyReply": 1,
-    "WeatherAppMessageKeyDescription": 2,
-    "WeatherAppMessageKeyDescriptionShort": 3,
-    "WeatherAppMessageKeyName": 4,
-    "WeatherAppMessageKeyTempK": 5
+    "OWMWeatherAppMessageKeyRequest": 0,
+    "OWMWeatherAppMessageKeyReply": 1,
+    "OWMWeatherAppMessageKeyDescription": 2,
+    "OWMWeatherAppMessageKeyDescriptionShort": 3,
+    "OWMWeatherAppMessageKeyName": 4,
+    "OWMWeatherAppMessageKeyTempK": 5
   },
   "resources": {
     "media": []
