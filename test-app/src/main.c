@@ -73,7 +73,7 @@ static void init() {
   window_stack_push(s_window, true);
 
   // Replace this with your own API key from OpenWeatherMap.org
-  const char *api_key = "12341234123412341234123412341234";
+  char *api_key = "12341234123412341234123412341234";
   owm_weather_init(api_key);
   
   app_timer_register(3000, js_ready_handler, NULL);
