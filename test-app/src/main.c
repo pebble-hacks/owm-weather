@@ -2,8 +2,6 @@
 
 #include "owm_weather/owm_weather.h"
 
-#include "key.h"
-
 static Window *s_window;
 static TextLayer *s_text_layer;
 
@@ -35,10 +33,16 @@ static void weather_callback(OWMWeatherInfo *info, OWMWeatherStatus status) {
     case OWMWeatherStatusFailed:
       text_layer_set_text(s_text_layer, "OWMWeatherStatusFailed");
       break;
+    case OWMWeatherStatusBadKey:
+      text_layer_set_text(s_text_layer, "OWMWeatherStatusBadKey");
+      break;
+    case OWMWeatherStatusLocationUnavailable:
+      text_layer_set_text(s_text_layer, "OWMWeatherStatusLocationUnavailable");
+      break;
   }
 }
 
-static void fetch_handler(void *context) {
+static void js_ready_handler(void *context) {
   owm_weather_fetch(weather_callback);
 }
 
@@ -68,9 +72,11 @@ static void init() {
   });
   window_stack_push(s_window, true);
 
-  owm_weather_init(API_KEY);
+  // Replace this with your own API key from OpenWeatherMap.org
+  const char *api_key = "12341234123412341234123412341234";
+  owm_weather_init(api_key);
   
-  app_timer_register(3000, fetch_handler, NULL);
+  app_timer_register(3000, js_ready_handler, NULL);
 }
 
 static void deinit() { 

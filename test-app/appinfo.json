@@ -15,7 +15,9 @@
     "OWMWeatherAppMessageKeyDescription": 2,
     "OWMWeatherAppMessageKeyDescriptionShort": 3,
     "OWMWeatherAppMessageKeyName": 4,
-    "OWMWeatherAppMessageKeyTempK": 5
+    "OWMWeatherAppMessageKeyTempK": 5,
+    "OWMWeatherAppMessageKeyBadKey": 6,
+    "OWMWeatherAppMessageKeyLocationUnavailable": 7
   },
   "resources": {
     "media": []

@@ -18,10 +18,6 @@ function owmWeatherSendToPebble(json) {
     'OWMWeatherAppMessageKeyDescriptionShort': json.weather[0].main,
     'OWMWeatherAppMessageKeyTempK': json.main.temp,
     'OWMWeatherAppMessageKeyName': json.name
-  }, function(e) {
-    console.log('owm-weather: Sent data to Pebble!');
-  }, function(e) {
-    console.log('owm-weather: Error sending data to Pebble');
   });
 }
 
@@ -36,14 +32,18 @@ function owmWeatherLocationSuccess(pos) {
       owmWeatherSendToPebble(JSON.parse(responseText));
     } else {
       console.log('owm-weather: API response was bad. Wrong API key?');
-      // TODO Inform C of bad API key
+      Pebble.sendAppMessage({
+        'OWMWeatherAppMessageKeyBadKey': 1
+      });
     }
   });
 }
 
 function owmWeatherLocationError(err) {
   console.log('owm-weather: Location error');
-  // TODO Inform C of location unavailable
+  Pebble.sendAppMessage({
+    'OWMWeatherAppMessageKeyLocationUnavailable': 1
+  });
 }
 
 function owmWeatherHandler(dict) {

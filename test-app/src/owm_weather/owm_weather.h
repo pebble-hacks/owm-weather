@@ -8,18 +8,18 @@
 typedef enum {
   //! Weather library has not yet initiated a fetch
   OWMWeatherStatusNotYetFetched = 0,
-
   //! Bluetooth is disconnected
   OWMWeatherStatusBluetoothDisconnected,
-
   //! Weather data fetch is in progress
   OWMWeatherStatusPending,
-
   //! Weather fetch failed
   OWMWeatherStatusFailed,
-
   //! Weather fetched and available
-  OWMWeatherStatusAvailable
+  OWMWeatherStatusAvailable,
+  //! API key was bad
+  OWMWeatherStatusBadKey,
+  //! Location not available
+  OWMWeatherStatusLocationUnavailable
 } OWMWeatherStatus;
 
 //! Struct containing weather data
