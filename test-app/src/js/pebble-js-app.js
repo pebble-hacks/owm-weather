@@ -1,8 +1,8 @@
 /*************************** Weather library start ****************************/
 
-var weatherAPIKey = '';
+var owmWeatherAPIKey = '';
 
-function weatherXHR(url, type, callback) {
+function owmWeatherXHR(url, type, callback) {
   var xhr = new XMLHttpRequest();
   xhr.onload = function () {
     callback(this.responseText);
@@ -11,47 +11,47 @@ function weatherXHR(url, type, callback) {
   xhr.send();
 }
 
-function weatherSendToPebble(json) {
+function owmWeatherSendToPebble(json) {
   Pebble.sendAppMessage({
-    'WeatherAppMessageKeyReply': 1,
-    'WeatherAppMessageKeyDescription': json.weather[0].description,
-    'WeatherAppMessageKeyDescriptionShort': json.weather[0].main,
-    'WeatherAppMessageKeyTempK': json.main.temp,
-    'WeatherAppMessageKeyName': json.name
+    'OWMWeatherAppMessageKeyReply': 1,
+    'OWMWeatherAppMessageKeyDescription': json.weather[0].description,
+    'OWMWeatherAppMessageKeyDescriptionShort': json.weather[0].main,
+    'OWMWeatherAppMessageKeyTempK': json.main.temp,
+    'OWMWeatherAppMessageKeyName': json.name
   }, function(e) {
-    console.log('weather: Sent data to Pebble!');
+    console.log('owm-weather: Sent data to Pebble!');
   }, function(e) {
-    console.log('weather: Error sending data to Pebble');
+    console.log('owm-weather: Error sending data to Pebble');
   });
 }
 
-function weatherLocationSuccess(pos) {
+function owmWeatherLocationSuccess(pos) {
   var url = 'http://api.openweathermap.org/data/2.5/weather?lat=' + 
-    pos.coords.latitude + '&lon=' + pos.coords.longitude + '&appid=' + weatherAPIKey;
-  console.log('weather: Location success. Contacting OpenWeatherMap.org...');
+    pos.coords.latitude + '&lon=' + pos.coords.longitude + '&appid=' + owmWeatherAPIKey;
+  console.log('owm-weather: Location success. Contacting OpenWeatherMap.org...');
 
-  weatherXHR(url, 'GET', function(responseText) {
-    console.log('weather: Got API response!');
+  owmWeatherXHR(url, 'GET', function(responseText) {
+    console.log('owm-weather: Got API response!');
     if(responseText.length > 100) {
-      weatherSendToPebble(JSON.parse(responseText));
+      owmWeatherSendToPebble(JSON.parse(responseText));
     } else {
-      console.log('weather: API response was bad. Wrong API key?');
+      console.log('owm-weather: API response was bad. Wrong API key?');
       // TODO Inform C of bad API key
     }
   });
 }
 
-function weatherLocationError(err) {
-  console.log('weather: Location error');
+function owmWeatherLocationError(err) {
+  console.log('owm-weather: Location error');
   // TODO Inform C of location unavailable
 }
 
-function weatherHandle(dict) {
-  if(dict.payload['WeatherAppMessageKeyRequest']) {
-    weatherAPIKey = dict.payload['WeatherAppMessageKeyRequest'];
-    console.log('weather: Got fetch request from C app');
+function owmWeatherHandler(dict) {
+  if(dict.payload['OWMWeatherAppMessageKeyRequest']) {
+    owmWeatherAPIKey = dict.payload['OWMWeatherAppMessageKeyRequest'];
+    console.log('owm-weather: Got fetch request from C app');
     
-    navigator.geolocation.getCurrentPosition(weatherLocationSuccess, weatherLocationError, {
+    navigator.geolocation.getCurrentPosition(owmWeatherLocationSuccess, owmWeatherLocationError, {
       timeout: 15000,
       maximumAge: 60000
     });
@@ -66,5 +66,5 @@ Pebble.addEventListener('ready', function(e) {
 
 Pebble.addEventListener('appmessage', function(e) {
   console.log('appmessage: ' + JSON.stringify(e.payload));
-  weatherHandle(e);
+  owmWeatherHandler(e);
 });
