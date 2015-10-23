@@ -1,7 +1,6 @@
 # owm-weather
 
-Library for easy fetching of weather data from
-[OpenWeatherMap.org](http://home.openweathermap.org).
+Library for easy fetching of weather data from [OpenWeatherMap.org](http://home.openweathermap.org).
 
 Includes a simple test app as a proof of concept usage of a weather C API.
 
@@ -20,7 +19,9 @@ Includes a simple test app as a proof of concept usage of a weather C API.
 "OWMWeatherAppMessageKeyDescription": 2,
 "OWMWeatherAppMessageKeyDescriptionShort": 3,
 "OWMWeatherAppMessageKeyName": 4,
-"OWMWeatherAppMessageKeyTempK": 5
+"OWMWeatherAppMessageKeyTempK": 5,
+"OWMWeatherAppMessageKeyBadKey": 6,
+"OWMWeatherAppMessageKeyLocationUnavailable": 7
 ```
 
 * Insert `owm_weather/owm_weather.js` into the top of your apps' `pebble-js-app.js`.
@@ -40,13 +41,12 @@ Pebble.addEventListener('appmessage', function(e) {
 #include "owm_weather/owm_weather.h"
 ```
 
-* Call `owm_weather_init()` to initialize the library when your app starts.
+* Call `owm_weather_init()` to initialize the library when your app starts, supplying your API key.
 
 * Call `owm_weather_fetch()`, after PebbleKit JS is ready supplying a suitable
   callback for events.
 
-That's it! When the fetch returns (successful or not), the callback will be
-called with a `OWMWeatherInfo` object for you to extract data from.
+That's it! When the fetch returns (successful or not), the callback will be called with a `OWMWeatherInfo` object for you to extract data from.
 
 
 ## Documentation
