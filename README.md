@@ -30,7 +30,6 @@ Includes a simple test app as a proof of concept usage of a weather C API.
 
 ```
 Pebble.addEventListener('appmessage', function(e) {
-  console.log('appmessage: ' + JSON.stringify(e.payload));
   owmWeatherHandler(e);
 });
 ```
