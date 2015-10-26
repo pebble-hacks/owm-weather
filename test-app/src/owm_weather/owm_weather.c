@@ -7,8 +7,9 @@ typedef enum {
   OWMWeatherAppMessageKeyDescriptionShort,
   OWMWeatherAppMessageKeyName,
   OWMWeatherAppMessageKeyTempK,
-  OWMWeatherAppMessageKeyBadKey,
-  OWMWeatherAppMessageKeyLocationUnavailable
+  OWMWeatherAppMessageKeyPressure,
+  OWMWeatherAppMessageKeyBadKey = 91,
+  OWMWeatherAppMessageKeyLocationUnavailable = 92
 } OWMWeatherAppMessageKey;
 
 static OWMWeatherInfo *s_info;
@@ -31,6 +32,9 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
     s_info->temp_c = s_info->temp_k - 273; 
     s_info->temp_f = ((s_info->temp_c * 9) / 5 /* *1.8 or 9/5 */) + 32;
     s_info->timestamp = time(NULL);
+
+    Tuple *pressure_tuple = dict_find(iter, OWMWeatherAppMessageKeyPressure);
+    s_info->pressure = pressure_tuple->value->int32;
 
     s_status = OWMWeatherStatusAvailable;
     app_message_deregister_callbacks();

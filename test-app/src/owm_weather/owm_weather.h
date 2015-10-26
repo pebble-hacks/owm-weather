@@ -34,6 +34,8 @@ typedef struct {
   int temp_k;
   int temp_c;
   int temp_f;
+  //! Air pressure in millibars
+  int pressure;
   //! Date that the data was received
   time_t timestamp;
 } OWMWeatherInfo;

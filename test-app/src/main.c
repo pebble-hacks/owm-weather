@@ -9,15 +9,11 @@ static void weather_callback(OWMWeatherInfo *info, OWMWeatherStatus status) {
   switch(status) {
     case OWMWeatherStatusAvailable:
     {
-      static char s_time_buffer[8];
-      struct tm *time_stamp_tm = localtime(&info->timestamp);
-      strftime(s_time_buffer, sizeof(s_time_buffer), "%H:%M", time_stamp_tm);
-
       static char s_buffer[256];
       snprintf(s_buffer, sizeof(s_buffer),
-        "Temperature (K/C/F): %d/%d/%d\n\nDescription:\n%s\n\nDescription (short):\n%s\n\nUpdated: %s",
+        "Temperature (K/C/F): %d/%d/%d\n\nDescription:\n%s\n\nDescription (short):\n%s\nPressure: %d",
         info->temp_k, info->temp_c, info->temp_f, info->description, 
-        info->description_short, s_time_buffer);
+        info->description_short, info->pressure);
       text_layer_set_text(s_text_layer, s_buffer);
     }
       break;
