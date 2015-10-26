@@ -11,9 +11,9 @@ static void weather_callback(OWMWeatherInfo *info, OWMWeatherStatus status) {
     {
       static char s_buffer[256];
       snprintf(s_buffer, sizeof(s_buffer),
-        "Temperature (K/C/F): %d/%d/%d\n\nDescription:\n%s\n\nDescription (short):\n%s\nPressure: %d",
+        "Temperature (K/C/F): %d/%d/%d\n\nDescription/short:\n%s/%s\n\nPressure: %d\n\nWind speed/dir: %d/%d",
         info->temp_k, info->temp_c, info->temp_f, info->description, 
-        info->description_short, info->pressure);
+        info->description_short, info->pressure, info->wind_speed, info->wind_direction);
       text_layer_set_text(s_text_layer, s_buffer);
     }
       break;

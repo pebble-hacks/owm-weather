@@ -21,6 +21,8 @@ Includes a simple test app as a proof of concept usage of a weather C API.
 "OWMWeatherAppMessageKeyName": 4,
 "OWMWeatherAppMessageKeyTempK": 5,
 "OWMWeatherAppMessageKeyPressure": 6,
+"OWMWeatherAppMessageKeyWindSpeed": 7,
+"OWMWeatherAppMessageKeyWindDirection": 8,
 "OWMWeatherAppMessageKeyBadKey": 91,
 "OWMWeatherAppMessageKeyLocationUnavailable": 92
 ```

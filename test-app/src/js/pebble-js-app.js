@@ -18,7 +18,9 @@ function owmWeatherSendToPebble(json) {
     'OWMWeatherAppMessageKeyDescriptionShort': json.weather[0].main,
     'OWMWeatherAppMessageKeyTempK': Math.round(json.main.temp),
     'OWMWeatherAppMessageKeyName': json.name,
-    'OWMWeatherAppMessageKeyPressure': Math.round(json.main.pressure)
+    'OWMWeatherAppMessageKeyPressure': Math.round(json.main.pressure),
+    'OWMWeatherAppMessageKeyWindSpeed': Math.round(json.wind.speed),
+    'OWMWeatherAppMessageKeyWindDirection': Math.round(json.wind.deg)
   });
 }
 

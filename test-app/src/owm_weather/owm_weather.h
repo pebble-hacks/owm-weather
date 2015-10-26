@@ -36,6 +36,10 @@ typedef struct {
   int temp_f;
   //! Air pressure in millibars
   int pressure;
+  //! Wind speed in m/s
+  int wind_speed;
+  //! Wind direction in meteorological degrees
+  int wind_direction;
   //! Date that the data was received
   time_t timestamp;
 } OWMWeatherInfo;
