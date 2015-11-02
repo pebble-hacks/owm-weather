@@ -20,8 +20,11 @@ Includes a simple test app as a proof of concept usage of a weather C API.
 "OWMWeatherAppMessageKeyDescriptionShort": 3,
 "OWMWeatherAppMessageKeyName": 4,
 "OWMWeatherAppMessageKeyTempK": 5,
-"OWMWeatherAppMessageKeyBadKey": 6,
-"OWMWeatherAppMessageKeyLocationUnavailable": 7
+"OWMWeatherAppMessageKeyPressure": 6,
+"OWMWeatherAppMessageKeyWindSpeed": 7,
+"OWMWeatherAppMessageKeyWindDirection": 8,
+"OWMWeatherAppMessageKeyBadKey": 91,
+"OWMWeatherAppMessageKeyLocationUnavailable": 92
 ```
 
 * Insert `owm_weather/owm_weather.js` into the top of your apps' `pebble-js-app.js`.
