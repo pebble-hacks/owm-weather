@@ -25,6 +25,9 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
 
     Tuple *desc_short_tuple = dict_find(iter, OWMWeatherAppMessageKeyDescriptionShort);
     strncpy(s_info->description_short, desc_short_tuple->value->cstring, OWM_WEATHER_BUFFER_SIZE);
+    
+    Tuple *desc_name_tuple = dict_find(iter, OWMWeatherAppMessageKeyName);
+    strncpy(s_info->name, desc_name_tuple->value->cstring, OWM_WEATHER_BUFFER_SIZE);
 
     Tuple *temp_tuple = dict_find(iter, OWMWeatherAppMessageKeyTempK);
     s_info->temp_k = temp_tuple->value->int32;
