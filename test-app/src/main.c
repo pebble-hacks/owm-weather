@@ -12,7 +12,7 @@ static void weather_callback(OWMWeatherInfo *info, OWMWeatherStatus status) {
       static char s_buffer[256];
       snprintf(s_buffer, sizeof(s_buffer),
         "Temperature (K/C/F): %d/%d/%d\n\nDescription/short:\n%s/%s\n\nPressure: %d\n\nWind speed/dir: %d/%d",
-        info->temp_k, info->temp_c, info->temp_f, info->description, 
+        info->temp_k, info->temp_c, info->temp_f, info->description,
         info->description_short, info->pressure, info->wind_speed, info->wind_direction);
       text_layer_set_text(s_text_layer, s_buffer);
     }
@@ -71,11 +71,11 @@ static void init() {
   // Replace this with your own API key from OpenWeatherMap.org
   char *api_key = "12341234123412341234123412341234";
   owm_weather_init(api_key);
-  
+
   app_timer_register(3000, js_ready_handler, NULL);
 }
 
-static void deinit() { 
+static void deinit() {
   owm_weather_deinit();
 }
 

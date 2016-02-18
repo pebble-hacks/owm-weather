@@ -1,6 +1,6 @@
 var OWMWeather = require('lib/owm_weather.js');
 
-var owmWeather = new OWMWeather({ baseAppKey: 10 });
+var owmWeather = new OWMWeather();
 
 Pebble.addEventListener('ready', function(e) {
   console.log('PebbleKit JS ready!');
