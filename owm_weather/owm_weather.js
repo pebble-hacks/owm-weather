@@ -5,17 +5,17 @@ var OWMWeather = function(options) {
   this._appKeyBase = options.baseAppKey || 0;
 
   this._appKeys = {
-    "Request": 0,
-    "Reply": 1,
-    "Description": 2,
-    "DescriptionShort": 3,
-    "Name": 4,
-    "TempK": 5,
-    "Pressure": 6,
-    "WindSpeed": 7,
-    "WindDirection": 8,
-    "BadKey": 9,
-    "LocationUnavailable": 10
+    'Request': 0,
+    'Reply': 1,
+    'Description': 2,
+    'DescriptionShort': 3,
+    'Name': 4,
+    'TempK': 5,
+    'Pressure': 6,
+    'WindSpeed': 7,
+    'WindDirection': 8,
+    'BadKey': 9,
+    'LocationUnavailable': 10
   };
 
   this.getAppKey = function(keyName) {
@@ -25,6 +25,9 @@ var OWMWeather = function(options) {
   this.sendAppMessage = function(obj, onSuccess, onError) {
     var msg = {};
     for(var key in obj) {
+      // Make sure the key exists
+      if (!key in this._appKeys) throw "Unknown key: " + key;
+
       msg[this.getAppKey(key)] = obj[key];
     }
 
@@ -34,7 +37,7 @@ var OWMWeather = function(options) {
   this._xhrWrapper = function(url, type, callback) {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
-      callback(this.responseText);
+      callback(xhr);
     };
     xhr.open(type, url);
     xhr.send();
@@ -58,12 +61,12 @@ var OWMWeather = function(options) {
       pos.coords.latitude + '&lon=' + pos.coords.longitude + '&appid=' + this._apiKey;
     console.log('owm-weather: Location success. Contacting OpenWeatherMap.org...');
 
-    this._xhrWrapper(url, 'GET', function(responseText) {
+    this._xhrWrapper(url, 'GET', function(req) {
       console.log('owm-weather: Got API response!');
-      if(responseText.length > 100) {
-        this.sendToPebble(JSON.parse(responseText));
+      if(req.status == 200) {
+        this.sendToPebble(JSON.parse(req.response));
       } else {
-        console.log('owm-weather: API response was bad. Wrong API key?');
+        console.log('owm-weather: Error fetching data (HTTP Status: ' + req.status + ')');
         this.sendAppMessage({ 'BadKey': 1 });
       }
     }.bind(this));
