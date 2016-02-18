@@ -26,7 +26,7 @@ var OWMWeather = function(options) {
     var msg = {};
     for(var key in obj) {
       // Make sure the key exists
-      if (!key in this._appKeys) throw "Unknown key: " + key;
+      if (!key in this._appKeys) throw 'Unknown key: ' + key;
 
       msg[this.getAppKey(key)] = obj[key];
     }
