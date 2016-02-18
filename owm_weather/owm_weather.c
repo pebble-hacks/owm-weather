@@ -10,8 +10,8 @@ typedef enum {
   OWMWeatherAppMessageKeyPressure,
   OWMWeatherAppMessageKeyWindSpeed,
   OWMWeatherAppMessageKeyWindDirection,
-  OWMWeatherAppMessageKeyBadKey = 91,
-  OWMWeatherAppMessageKeyLocationUnavailable = 92
+  OWMWeatherAppMessageKeyBadKey,
+  OWMWeatherAppMessageKeyLocationUnavailable
 } OWMWeatherAppMessageKey;
 
 static OWMWeatherInfo *s_info;
