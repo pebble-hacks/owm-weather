@@ -5,22 +5,12 @@
   "companyName": "Pebble",
   "versionLabel": "1.0",
   "sdkVersion": "3",
+  "enableMultiJS": true,
   "targetPlatforms": ["aplite", "basalt", "chalk"],
   "watchapp": {
     "watchface": false
   },
   "appKeys": {
-    "OWMWeatherAppMessageKeyRequest": 0,
-    "OWMWeatherAppMessageKeyReply": 1,
-    "OWMWeatherAppMessageKeyDescription": 2,
-    "OWMWeatherAppMessageKeyDescriptionShort": 3,
-    "OWMWeatherAppMessageKeyName": 4,
-    "OWMWeatherAppMessageKeyTempK": 5,
-    "OWMWeatherAppMessageKeyPressure": 6,
-    "OWMWeatherAppMessageKeyWindSpeed": 7,
-    "OWMWeatherAppMessageKeyWindDirection": 8,
-    "OWMWeatherAppMessageKeyBadKey": 91,
-    "OWMWeatherAppMessageKeyLocationUnavailable": 92
   },
   "resources": {
     "media": []

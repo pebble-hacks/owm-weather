@@ -34,6 +34,12 @@ typedef struct {
   int temp_k;
   int temp_c;
   int temp_f;
+  //! Air pressure in millibars
+  int pressure;
+  //! Wind speed in m/s
+  int wind_speed;
+  //! Wind direction in meteorological degrees
+  int wind_direction;
   //! Date that the data was received
   time_t timestamp;
 } OWMWeatherInfo;
@@ -48,6 +54,13 @@ typedef void(OWMWeatherCallback)(OWMWeatherInfo *info, OWMWeatherStatus status);
 //! @param api_key The API key or 'appid' from your OpenWeatherMap account.
 void owm_weather_init(char *api_key);
 
+//! Initialize the weather library with a base AppMessage key.
+//! The data is fetched after calling this, and should be accessed
+//! and stored once the callback returns data, if it is successful.
+//! @param api_key The API key or 'appid' from your OpenWeatherMap account.
+//! @param base_app_key The AppKey base to use
+void owm_weather_init_with_base_app_key(char *api_key, int base_app_key);
+
 //! Important: This uses the AppMessage system. You should only use AppMessage yourself
 //! either before calling this, or after you have obtained your weather data.
 //! @param callback Callback to be called once the weather.
@@ -57,8 +70,8 @@ bool owm_weather_fetch(OWMWeatherCallback *callback);
 //! Deinitialize and free the backing OWMWeatherInfo.
 void owm_weather_deinit();
 
-//! Peek at the current state of the weather library. You should check the OWMWeatherStatus of the 
+//! Peek at the current state of the weather library. You should check the OWMWeatherStatus of the
 //! returned OWMWeatherInfo before accessing data members.
-//! @return OWMWeatherInfo object, internally allocated. 
+//! @return OWMWeatherInfo object, internally allocated.
 //! If NULL, owm_weather_init() has not been called.
 OWMWeatherInfo* owm_weather_peek();
