@@ -1,8 +1,8 @@
 var OWMWeather = function() {
 
-  this.owmWeatherAPIKey = '';
+  this._apiKey = '';
 
-  this.owmWeatherXHR = function(url, type, callback) {
+  this._xhrWrapper = function(url, type, callback) {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
       callback(this.responseText);
@@ -11,7 +11,7 @@ var OWMWeather = function() {
     xhr.send();
   }
 
-  this.owmWeatherSendToPebble = function(json) {
+  this.sendToPebble = function(json) {
     Pebble.sendAppMessage({
       'OWMWeatherAppMessageKeyReply': 1,
       'OWMWeatherAppMessageKeyDescription': json.weather[0].description,
@@ -24,15 +24,15 @@ var OWMWeather = function() {
     });
   }
 
-  this.owmWeatherLocationSuccess = function(pos) {
+  this._onLocationSuccess = function(pos) {
     var url = 'http://api.openweathermap.org/data/2.5/weather?lat=' +
-      pos.coords.latitude + '&lon=' + pos.coords.longitude + '&appid=' + this.owmWeatherAPIKey;
+      pos.coords.latitude + '&lon=' + pos.coords.longitude + '&appid=' + this._apiKey;
     console.log('owm-weather: Location success. Contacting OpenWeatherMap.org...');
 
-    this.owmWeatherXHR(url, 'GET', function(responseText) {
+    this._xhrWrapper(url, 'GET', function(responseText) {
       console.log('owm-weather: Got API response!');
       if(responseText.length > 100) {
-        this.owmWeatherSendToPebble(JSON.parse(responseText));
+        this.sendToPebble(JSON.parse(responseText));
       } else {
         console.log('owm-weather: API response was bad. Wrong API key?');
         Pebble.sendAppMessage({ 'OWMWeatherAppMessageKeyBadKey': 1 });
@@ -40,7 +40,7 @@ var OWMWeather = function() {
     }.bind(this));
   }
 
-  this.owmWeatherLocationError = function(err) {
+  this._onLocationError = function(err) {
     console.log('owm-weather: Location error');
     Pebble.sendAppMessage({
       'OWMWeatherAppMessageKeyLocationUnavailable': 1
@@ -49,12 +49,14 @@ var OWMWeather = function() {
 
   this.appMessageHandler = function(dict) {
     if(dict.payload['OWMWeatherAppMessageKeyRequest']) {
-      this.owmWeatherAPIKey = dict.payload['OWMWeatherAppMessageKeyRequest'];
+      this._apiKey = dict.payload['OWMWeatherAppMessageKeyRequest'];
       console.log('owm-weather: Got fetch request from C app');
 
-      navigator.geolocation.getCurrentPosition(this.owmWeatherLocationSuccess.bind(this), this.owmWeatherLocationError.bind(this), {
-        timeout: 15000,
-        maximumAge: 60000
+      navigator.geolocation.getCurrentPosition(
+        this._onLocationSuccess.bind(this),
+        this._onLocationError.bind(this), {
+          timeout: 15000,
+          maximumAge: 60000
       });
     }
 
