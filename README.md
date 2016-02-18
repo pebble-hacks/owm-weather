@@ -13,18 +13,18 @@ Includes a simple test app as a proof of concept usage of a weather C API.
 
 * Ensure `'enableMultiJS': true` is set in your appinfo.json.
 
-* Add `owm_weather/owm_weather.js` to `/src/js/lib`, include it in your your app.js file, and then instantiate an OWMWeather object.
+* Add `owm_weather/owm_weather.js` to `/src/js/lib`, include it in your your `app.js` file, and then instantiate an OWMWeather object.
 
 ```
 var OWMWeather = require('lib/owm_weather.js');
-var owm = new OWMWeather();
+var owmWeather = new OWMWeather();
 ```
 
-* Call `owm.appMessageHandler()` in an `appmessage` handler so that it can message the C side.
+* Call `owmWeather.appMessageHandler()` in an `appmessage` handler so that it can message the C side.
 
 ```
 Pebble.addEventListener('appmessage', function(e) {
-  owm.appMessageHandler(e);
+  owmWeather.appMessageHandler(e);
 });
 ```
 
@@ -36,7 +36,7 @@ Pebble.addEventListener('appmessage', function(e) {
 
 * Call `owm_weather_init(api_key)` to initialize the library when your app starts, supplying your API key.
 
-* Call `owm_weather_fetch()`, after PebbleKit JS is ready supplying a suitable
+* Call `owm_weather_fetch()` after PebbleKit JS is ready, and supply a suitable
   callback for events.
 
 That's it! When the fetch returns (successful or not), the callback will be called with a `OWMWeatherInfo` object for you to extract data from.
@@ -49,7 +49,7 @@ By default, the OWMWeather library requires 11 consecutive unused App Message Ke
 var OWMWeather = require('lib/owm_weather.js');
 
 // Use App Keys 10-20
-var owm = new OWMWeather({ appKeyBase: 10 });
+var owmWeather = new OWMWeather({ appKeyBase: 10 });
 ```
 
 ```
