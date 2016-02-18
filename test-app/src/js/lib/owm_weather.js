@@ -1,4 +1,3 @@
-/*************************** Weather library start ****************************/
 var OWMWeather = function() {
 
   this.owmWeatherAPIKey = '';
@@ -62,15 +61,5 @@ var OWMWeather = function() {
     return true;
   };
 }
-/**************************** Weather library end *****************************/
 
-var owmWeather = new OWMWeather();
-
-Pebble.addEventListener('ready', function(e) {
-  console.log('PebbleKit JS ready!');
-});
-
-Pebble.addEventListener('appmessage', function(e) {
-  console.log('appmessage: ' + JSON.stringify(e.payload));
-  owmWeather.appMessageHandler(e);
-});
+module.exports = OWMWeather;

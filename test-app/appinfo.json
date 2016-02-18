@@ -5,6 +5,7 @@
   "companyName": "Pebble",
   "versionLabel": "1.0",
   "sdkVersion": "3",
+  "enableMultiJS": true,
   "targetPlatforms": ["aplite", "basalt", "chalk"],
   "watchapp": {
     "watchface": false

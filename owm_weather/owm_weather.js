@@ -1,4 +1,3 @@
-/*************************** Weather library start ****************************/
 var OWMWeather = function() {
 
   this.owmWeatherAPIKey = '';
@@ -62,4 +61,5 @@ var OWMWeather = function() {
     return true;
   };
 }
-/**************************** Weather library end *****************************/
+
+module.exports = OWMWeather;
