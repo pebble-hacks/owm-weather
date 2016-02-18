@@ -11,29 +11,20 @@ Includes a simple test app as a proof of concept usage of a weather C API.
 
 * Obtain an API key from [OpenWeatherMap.org](http://home.openweathermap.org/users/sign_up).
 
-* Add these `AppMessage` keys to the `appKeys` array in `appinfo.json`:
+* Ensure `'enableMultiJS': true` is set in your appinfo.json.
+
+* Add `owm_weather/owm_weather.js` to `/src/js/lib`, include it in your your app.js file, and then instantiate an OWMWeather object.
 
 ```
-"OWMWeatherAppMessageKeyRequest": 0,
-"OWMWeatherAppMessageKeyReply": 1,
-"OWMWeatherAppMessageKeyDescription": 2,
-"OWMWeatherAppMessageKeyDescriptionShort": 3,
-"OWMWeatherAppMessageKeyName": 4,
-"OWMWeatherAppMessageKeyTempK": 5,
-"OWMWeatherAppMessageKeyPressure": 6,
-"OWMWeatherAppMessageKeyWindSpeed": 7,
-"OWMWeatherAppMessageKeyWindDirection": 8,
-"OWMWeatherAppMessageKeyBadKey": 91,
-"OWMWeatherAppMessageKeyLocationUnavailable": 92
+var OWMWeather = require('lib/owm_weather.js');
+var owm = new OWMWeather();
 ```
 
-* Insert `owm_weather/owm_weather.js` into the top of your apps' `pebble-js-app.js`.
-
-* Call `owmWeatherHandler()` in an `appmessage` handler so that it can message the C side.
+* Call `owm.appMessageHandler()` in an `appmessage` handler so that it can message the C side.
 
 ```
 Pebble.addEventListener('appmessage', function(e) {
-  owmWeatherHandler(e);
+  owm.appMessageHandler(e);
 });
 ```
 
@@ -43,13 +34,30 @@ Pebble.addEventListener('appmessage', function(e) {
 #include "owm_weather/owm_weather.h"
 ```
 
-* Call `owm_weather_init()` to initialize the library when your app starts, supplying your API key.
+* Call `owm_weather_init(api_key)` to initialize the library when your app starts, supplying your API key.
 
 * Call `owm_weather_fetch()`, after PebbleKit JS is ready supplying a suitable
   callback for events.
 
 That's it! When the fetch returns (successful or not), the callback will be called with a `OWMWeatherInfo` object for you to extract data from.
 
+### OWMWeather AppMessage Keys
+
+By default, the OWMWeather library requires 11 consecutive unused App Message Keys (and defaults to 0 - 10). If you wish to use a different set of consecutive keys, you can set the AppKey base by changing the JavaScript and C initializers to:
+
+```
+var OWMWeather = require('lib/owm_weather.js');
+
+// Use App Keys 10-20
+var owm = new OWMWeather({ appKeyBase: 10 });
+```
+
+```
+// Use App Keys 10-20
+owm_weather_init_with_base_app_key(apiKey, 10);
+```
+
+**NOTE:** You *must* set the AppKey base in both the C and JS application code to use this feature.
 
 ## Documentation
 
