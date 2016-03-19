@@ -34,6 +34,9 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
     Tuple *desc_short_tuple = dict_find(iter, get_app_key(OWMWeatherAppMessageKeyDescriptionShort));
     strncpy(s_info->description_short, desc_short_tuple->value->cstring, OWM_WEATHER_BUFFER_SIZE);
 
+    Tuple *name_tuple = dict_find(iter, get_app_key(OWMWeatherAppMessageKeyName));
+    strncpy(s_info->name, name_tuple->value->cstring, OWM_WEATHER_BUFFER_SIZE);
+
     Tuple *temp_tuple = dict_find(iter, get_app_key(OWMWeatherAppMessageKeyTempK));
     s_info->temp_k = temp_tuple->value->int32;
     s_info->temp_c = s_info->temp_k - 273;
