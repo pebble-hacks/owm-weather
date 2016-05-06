@@ -49,7 +49,7 @@ By default, the OWMWeather library requires 11 consecutive unused App Message Ke
 var OWMWeather = require('lib/owm_weather.js');
 
 // Use App Keys 10-20
-var owmWeather = new OWMWeather({ appKeyBase: 10 });
+var owmWeather = new OWMWeather({ baseAppKey: 10 });
 ```
 
 ```
