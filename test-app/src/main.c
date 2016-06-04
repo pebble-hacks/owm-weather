@@ -1,6 +1,6 @@
 #include <pebble.h>
 
-#include "owm_weather/owm_weather.h"
+#include <pebble-owm-weather/owm-weather.h>
 
 static Window *s_window;
 static TextLayer *s_text_layer;

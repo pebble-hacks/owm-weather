@@ -54,13 +54,6 @@ typedef void(OWMWeatherCallback)(OWMWeatherInfo *info, OWMWeatherStatus status);
 //! @param api_key The API key or 'appid' from your OpenWeatherMap account.
 void owm_weather_init(char *api_key);
 
-//! Initialize the weather library with a base AppMessage key.
-//! The data is fetched after calling this, and should be accessed
-//! and stored once the callback returns data, if it is successful.
-//! @param api_key The API key or 'appid' from your OpenWeatherMap account.
-//! @param base_app_key The AppKey base to use
-void owm_weather_init_with_base_app_key(char *api_key, int base_app_key);
-
 //! Important: This uses the AppMessage system. You should only use AppMessage yourself
 //! either before calling this, or after you have obtained your weather data.
 //! @param callback Callback to be called once the weather.

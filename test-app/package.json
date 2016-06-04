@@ -1,0 +1,29 @@
+{
+  "pebble": {
+    "sdkVersion": "3",
+    "resources": {
+      "media": []
+    },
+    "projectType": "native",
+    "uuid": "76a2941b-5953-4c17-87b9-92cc1f9f2ceb",
+    "messageKeys": {},
+    "enableMultiJS": true,
+    "displayName": "owm-weather-test-app",
+    "targetPlatforms": [
+      "aplite",
+      "basalt",
+      "chalk"
+    ],
+    "capabilities": []
+  },
+  "version": "1.0.0",
+  "name": "owm-weather-test-app",
+  "author": "Pebble",
+  "private": true,
+  "keywords": [
+    "pebble-app"
+  ],
+  "dependencies": {
+    "pebble-owm-weather": "../"
+  }
+}

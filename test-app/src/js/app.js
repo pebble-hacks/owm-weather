@@ -1,4 +1,4 @@
-var OWMWeather = require('lib/owm_weather.js');
+var OWMWeather = require('pebble-owm-weather');
 
 var owmWeather = new OWMWeather();
 

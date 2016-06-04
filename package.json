@@ -1,0 +1,33 @@
+{
+  "name": "pebble-owm-weather",
+  "author": "Pebble Technology",
+  "version": "1.0.0",
+  "files": ["dist.zip"],
+  "keywords": ["pebble-package"],
+  "dependencies": {},
+  "pebble": {
+    "projectType": "package",
+    "sdkVersion": "3",
+    "targetPlatforms": [
+      "aplite",
+      "basalt",
+      "chalk"
+    ],
+    "resources": {
+      "media": []
+    },
+    "messageKeys": [
+      "Request",
+      "Reply",
+      "Description",
+      "DescriptionShort",
+      "Name",
+      "TempK",
+      "Pressure",
+      "WindSpeed",
+      "WindDirection",
+      "BadKey",
+      "LocationUnavailable"
+    ]
+  }
+}
