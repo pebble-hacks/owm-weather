@@ -15,6 +15,27 @@ Includes a simple test app as a proof of concept usage of a weather C API.
 
 * Run `pebble package install pebble-owm-weather`.
 
+* Require `pebble-owm-weather` in your your `app.js` file, and then instantiate an OWMWeather object.
+
+```
+var OWMWeather = require('lib/owm_weather.js');
+var owmWeather = new OWMWeather();
+```
+
+* Call `owmWeather.appMessageHandler()` in an `appmessage` handler so that it can message the C side.
+
+```
+Pebble.addEventListener('appmessage', function(e) {
+  owmWeather.appMessageHandler(e);
+});
+```
+
+* Include the library in any C files that will use it:
+
+```
+#include <pebble-owm-weather/owm-weather.h>
+```
+
 * Call `owm_weather_init(api_key)` to initialize the library when your app starts, supplying your API key.
 
 * Call `owm_weather_fetch()` after PebbleKit JS is ready, and supply a suitable
