@@ -3,17 +3,6 @@ var OWMWeather = function(options) {
 
   options = options || {};
 
-  this._appKeys = require('message_keys');
-
-  this.sendAppMessage = function(obj, onSuccess, onError) {
-    for(var key in obj) {
-      // Make sure the key exists
-      if (!key in this._appKeys) throw 'Unknown key: ' + key;
-    }
-
-    Pebble.sendAppMessage(obj, onSuccess, onError);
-  };
-
   this._xhrWrapper = function(url, type, callback) {
     var xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -24,7 +13,7 @@ var OWMWeather = function(options) {
   };
 
   this.sendToPebble = function(json) {
-    this.sendAppMessage({
+    Pebble.sendAppMessage({
       'Reply': 1,
       'Description': json.weather[0].description,
       'DescriptionShort': json.weather[0].main,
@@ -47,21 +36,21 @@ var OWMWeather = function(options) {
         this.sendToPebble(JSON.parse(req.response));
       } else {
         console.log('owm-weather: Error fetching data (HTTP Status: ' + req.status + ')');
-        this.sendAppMessage({ 'BadKey': 1 });
+        Pebble.sendAppMessage({ 'BadKey': 1 });
       }
     }.bind(this));
   };
 
   this._onLocationError = function(err) {
     console.log('owm-weather: Location error');
-    this.sendAppMessage({
+    Pebble.sendAppMessage({
       'LocationUnavailable': 1
     });
   };
 
   this.appMessageHandler = function(dict) {
-    if(dict.payload[this._appKeys['Request']]) {
-      this._apiKey = dict.payload[this._appKeys['Request']];
+    if(dict.payload['Request']) {
+      this._apiKey = dict.payload['Request'];
       console.log('owm-weather: Got fetch request from C app');
 
       navigator.geolocation.getCurrentPosition(
