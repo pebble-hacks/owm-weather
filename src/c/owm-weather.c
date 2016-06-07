@@ -1,4 +1,6 @@
 #include <pebble.h>
+#include <pebble-events/pebble-events.h>
+
 #include "owm-weather.h"
 
 static OWMWeatherInfo *s_info;
@@ -93,6 +95,9 @@ void owm_weather_init(char *api_key) {
 
   s_info = (OWMWeatherInfo*)malloc(sizeof(OWMWeatherInfo));
   s_status = OWMWeatherStatusNotYetFetched;
+  events_app_message_request_inbox_size(2026);
+  events_app_message_request_outbox_size(656);
+  events_app_message_register_inbox_received(inbox_received_handler, NULL);
 }
 
 bool owm_weather_fetch(OWMWeatherCallback *callback) {
@@ -113,10 +118,6 @@ bool owm_weather_fetch(OWMWeatherCallback *callback) {
     s_callback(s_info, s_status);
     return false;
   }
-
-  app_message_deregister_callbacks();
-  app_message_register_inbox_received(inbox_received_handler);
-  app_message_open(2026, 656);
 
   return fetch();
 }

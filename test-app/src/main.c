@@ -1,6 +1,7 @@
 #include <pebble.h>
 
 #include <pebble-owm-weather/owm-weather.h>
+#include <pebble-events/pebble-events.h>
 
 static Window *s_window;
 static TextLayer *s_text_layer;
@@ -71,6 +72,7 @@ static void init() {
   // Replace this with your own API key from OpenWeatherMap.org
   char *api_key = "12341234123412341234123412341234";
   owm_weather_init(api_key);
+  events_app_message_open();
 
   app_timer_register(3000, js_ready_handler, NULL);
 }

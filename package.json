@@ -4,7 +4,9 @@
   "version": "1.0.0",
   "files": ["dist.zip"],
   "keywords": ["pebble-package"],
-  "dependencies": {},
+  "dependencies": {
+    "pebble-events": "^1.0.0"
+  },
   "pebble": {
     "projectType": "package",
     "sdkVersion": "3",
