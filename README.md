@@ -13,7 +13,9 @@ Includes a simple test app as a proof of concept usage of a weather C API.
 
 * Ensure `'enableMultiJS': true` is set in your appinfo.json.
 
-* Add `owm_weather/owm_weather.js` to `/src/js/lib`, include it in your your `app.js` file, and then instantiate an OWMWeather object.
+* Run `pebble package install pebble-owm-weather`.
+
+* Require `pebble-owm-weather` in your your `app.js` file, and then instantiate an OWMWeather object.
 
 ```
 var OWMWeather = require('lib/owm_weather.js');
@@ -28,41 +30,31 @@ Pebble.addEventListener('appmessage', function(e) {
 });
 ```
 
-* Copy the `owm_weather` directory into your project's `src` directory and include the library in any C files that will use it:
+* Include the library in any C files that will use it:
 
 ```
-#include "owm_weather/owm_weather.h"
+#include <pebble-owm-weather/owm-weather.h>
+```
+
+* Include the [pebble-events](https://www.npmjs.com/package/pebble-events) library in your main file
+so you can initialise it:
+
+```
+#include <pebble-events/pebble-events.h>
 ```
 
 * Call `owm_weather_init(api_key)` to initialize the library when your app starts, supplying your API key.
+
+* Call `events_app_message_open()` after `owm_weather_init` and any other libraries you need to init.
 
 * Call `owm_weather_fetch()` after PebbleKit JS is ready, and supply a suitable
   callback for events.
 
 That's it! When the fetch returns (successful or not), the callback will be called with a `OWMWeatherInfo` object for you to extract data from.
 
-### OWMWeather AppMessage Keys
-
-By default, the OWMWeather library requires 11 consecutive unused App Message Keys (and defaults to 0 - 10). If you wish to use a different set of consecutive keys, you can set the AppKey base by changing the JavaScript and C initializers to:
-
-```
-var OWMWeather = require('lib/owm_weather.js');
-
-// Use App Keys 10-20
-var owmWeather = new OWMWeather({ baseAppKey: 10 });
-```
-
-```
-// Use App Keys 10-20
-owm_weather_init_with_base_app_key(apiKey, 10);
-```
-
-**NOTE:** You *must* set the AppKey base in both the C and JS application code to use this feature.
-
 ## Documentation
 
-Read `owm_weather/owm_weather.h` for function and `enum` documentation.
-
+Read `include/owm-weather.h` for function and `enum` documentation.
 
 ## Data returned
 

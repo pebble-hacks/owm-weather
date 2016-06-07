@@ -1,55 +1,39 @@
-#include "owm_weather.h"
+#include <pebble.h>
+#include <pebble-events/pebble-events.h>
 
-typedef enum {
-  OWMWeatherAppMessageKeyRequest = 0,
-  OWMWeatherAppMessageKeyReply,
-  OWMWeatherAppMessageKeyDescription,
-  OWMWeatherAppMessageKeyDescriptionShort,
-  OWMWeatherAppMessageKeyName,
-  OWMWeatherAppMessageKeyTempK,
-  OWMWeatherAppMessageKeyPressure,
-  OWMWeatherAppMessageKeyWindSpeed,
-  OWMWeatherAppMessageKeyWindDirection,
-  OWMWeatherAppMessageKeyBadKey,
-  OWMWeatherAppMessageKeyLocationUnavailable
-} OWMWeatherAppMessageKey;
+#include "owm-weather.h"
 
 static OWMWeatherInfo *s_info;
 static OWMWeatherCallback *s_callback;
 static OWMWeatherStatus s_status;
 
 static char s_api_key[33];
-static int s_base_app_key = 0;
-
-static int get_app_key(OWMWeatherAppMessageKey key) {
-  return (int) key + s_base_app_key;
-}
 
 static void inbox_received_handler(DictionaryIterator *iter, void *context) {
-  Tuple *reply_tuple = dict_find(iter, get_app_key(OWMWeatherAppMessageKeyReply));
+  Tuple *reply_tuple = dict_find(iter, MESSAGE_KEY_Reply);
   if(reply_tuple) {
-    Tuple *desc_tuple = dict_find(iter, get_app_key(OWMWeatherAppMessageKeyDescription));
+    Tuple *desc_tuple = dict_find(iter, MESSAGE_KEY_Description);
     strncpy(s_info->description, desc_tuple->value->cstring, OWM_WEATHER_BUFFER_SIZE);
 
-    Tuple *desc_short_tuple = dict_find(iter, get_app_key(OWMWeatherAppMessageKeyDescriptionShort));
+    Tuple *desc_short_tuple = dict_find(iter, MESSAGE_KEY_DescriptionShort);
     strncpy(s_info->description_short, desc_short_tuple->value->cstring, OWM_WEATHER_BUFFER_SIZE);
 
-    Tuple *name_tuple = dict_find(iter, get_app_key(OWMWeatherAppMessageKeyName));
+    Tuple *name_tuple = dict_find(iter, MESSAGE_KEY_Name);
     strncpy(s_info->name, name_tuple->value->cstring, OWM_WEATHER_BUFFER_SIZE);
 
-    Tuple *temp_tuple = dict_find(iter, get_app_key(OWMWeatherAppMessageKeyTempK));
+    Tuple *temp_tuple = dict_find(iter, MESSAGE_KEY_TempK);
     s_info->temp_k = temp_tuple->value->int32;
     s_info->temp_c = s_info->temp_k - 273;
     s_info->temp_f = ((s_info->temp_c * 9) / 5 /* *1.8 or 9/5 */) + 32;
     s_info->timestamp = time(NULL);
 
-    Tuple *pressure_tuple = dict_find(iter, get_app_key(OWMWeatherAppMessageKeyPressure));
+    Tuple *pressure_tuple = dict_find(iter, MESSAGE_KEY_Pressure);
     s_info->pressure = pressure_tuple->value->int32;
 
-    Tuple *wind_speed_tuple = dict_find(iter, get_app_key(OWMWeatherAppMessageKeyWindSpeed));
+    Tuple *wind_speed_tuple = dict_find(iter, MESSAGE_KEY_WindSpeed);
     s_info->wind_speed = wind_speed_tuple->value->int32;
 
-    Tuple *wind_direction_tuple = dict_find(iter, get_app_key(OWMWeatherAppMessageKeyWindDirection));
+    Tuple *wind_direction_tuple = dict_find(iter, MESSAGE_KEY_WindDirection);
     s_info->wind_direction = wind_direction_tuple->value->int32;
 
     s_status = OWMWeatherStatusAvailable;
@@ -57,13 +41,13 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
     s_callback(s_info, s_status);
   }
 
-  Tuple *err_tuple = dict_find(iter, get_app_key(OWMWeatherAppMessageKeyBadKey));
+  Tuple *err_tuple = dict_find(iter, MESSAGE_KEY_BadKey);
   if(err_tuple) {
     s_status = OWMWeatherStatusBadKey;
     s_callback(s_info, s_status);
   }
 
-  err_tuple = dict_find(iter, get_app_key(OWMWeatherAppMessageKeyLocationUnavailable));
+  err_tuple = dict_find(iter, MESSAGE_KEY_LocationUnavailable);
   if(err_tuple) {
     s_status = OWMWeatherStatusLocationUnavailable;
     s_callback(s_info, s_status);
@@ -84,7 +68,7 @@ static bool fetch() {
     return false;
   }
 
-  dict_write_cstring(out, get_app_key(OWMWeatherAppMessageKeyRequest), s_api_key);
+  dict_write_cstring(out, MESSAGE_KEY_Request, s_api_key);
 
   result = app_message_outbox_send();
   if(result != APP_MSG_OK) {
@@ -97,12 +81,10 @@ static bool fetch() {
   return true;
 }
 
-void owm_weather_init_with_base_app_key(char *api_key, int base_app_key) {
+void owm_weather_init(char *api_key) {
   if(s_info) {
     free(s_info);
   }
-
-  s_base_app_key = base_app_key;
 
   if(!api_key) {
     APP_LOG(APP_LOG_LEVEL_ERROR, "API key was NULL!");
@@ -113,10 +95,9 @@ void owm_weather_init_with_base_app_key(char *api_key, int base_app_key) {
 
   s_info = (OWMWeatherInfo*)malloc(sizeof(OWMWeatherInfo));
   s_status = OWMWeatherStatusNotYetFetched;
-}
-
-void owm_weather_init(char *api_key) {
-  owm_weather_init_with_base_app_key(api_key, 0);
+  events_app_message_request_inbox_size(2026);
+  events_app_message_request_outbox_size(656);
+  events_app_message_register_inbox_received(inbox_received_handler, NULL);
 }
 
 bool owm_weather_fetch(OWMWeatherCallback *callback) {
@@ -137,10 +118,6 @@ bool owm_weather_fetch(OWMWeatherCallback *callback) {
     s_callback(s_info, s_status);
     return false;
   }
-
-  app_message_deregister_callbacks();
-  app_message_register_inbox_received(inbox_received_handler);
-  app_message_open(2026, 656);
 
   return fetch();
 }
