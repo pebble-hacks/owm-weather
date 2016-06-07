@@ -36,7 +36,16 @@ Pebble.addEventListener('appmessage', function(e) {
 #include <pebble-owm-weather/owm-weather.h>
 ```
 
+* Include the [pebble-events](https://www.npmjs.com/package/pebble-events) library in your main file
+so you can initialise it:
+
+```
+#include <pebble-events/pebble-events.h>
+```
+
 * Call `owm_weather_init(api_key)` to initialize the library when your app starts, supplying your API key.
+
+* Call `events_app_message_open()` after `owm_weather_init` and any other libraries you need to init.
 
 * Call `owm_weather_fetch()` after PebbleKit JS is ready, and supply a suitable
   callback for events.
