@@ -28,6 +28,8 @@ typedef struct {
   char description[OWM_WEATHER_BUFFER_SIZE];
   //! Short conditions string e.g: "Clear"
   char description_short[OWM_WEATHER_BUFFER_SIZE];
+  //! Weather icon id code e.g: "02d"
+  char icon[OWM_WEATHER_BUFFER_SIZE];
   //! Name of the location from the weather feed
   char name[OWM_WEATHER_BUFFER_SIZE];
   //! Temperature in degrees Kelvin, Celcius, and Farenheit

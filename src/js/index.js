@@ -17,6 +17,7 @@ var OWMWeather = function(options) {
       'Reply': 1,
       'Description': json.weather[0].description,
       'DescriptionShort': json.weather[0].main,
+      'Icon': json.weather[0].icon,
       'TempK': Math.round(json.main.temp),
       'Name': json.name,
       'Pressure': Math.round(json.main.pressure),

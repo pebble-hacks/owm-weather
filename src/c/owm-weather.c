@@ -18,6 +18,9 @@ static void inbox_received_handler(DictionaryIterator *iter, void *context) {
     Tuple *desc_short_tuple = dict_find(iter, MESSAGE_KEY_DescriptionShort);
     strncpy(s_info->description_short, desc_short_tuple->value->cstring, OWM_WEATHER_BUFFER_SIZE);
 
+    Tuple *icon_tuple = dict_find(iter, MESSAGE_KEY_Icon);
+    strncpy(s_info->icon, icon_tuple->value->cstring, OWM_WEATHER_BUFFER_SIZE);
+
     Tuple *name_tuple = dict_find(iter, MESSAGE_KEY_Name);
     strncpy(s_info->name, name_tuple->value->cstring, OWM_WEATHER_BUFFER_SIZE);
 
