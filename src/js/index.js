@@ -26,7 +26,7 @@ var OWMWeather = function(options) {
   };
 
   this._onLocationSuccess = function(pos) {
-    var url = 'http://api.openweathermap.org/data/2.5/weather?lat=' +
+    var url = 'https://api.openweathermap.org/data/2.5/weather?lat=' +
       pos.coords.latitude + '&lon=' + pos.coords.longitude + '&appid=' + this._apiKey;
     console.log('owm-weather: Location success. Contacting OpenWeatherMap.org...');
 
